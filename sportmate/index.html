@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SPORTMATE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+    color: white;
+    overflow-x: hidden;
+    min-height: 100vh;
+    background-attachment: fixed;
+    will-change: background;
+}
+
+.screen{
+    display: none;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    animation: fadeInScreen 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), slideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes fadeInScreen {
+    from { 
+        opacity: 0;
+        filter: blur(5px);
+    }
+    to { 
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% { 
+        transform: translateY(0px);
+    }
+    50% { 
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes floatSmooth {
+    0%, 100% { 
+        transform: translateY(0px);
+    }
+    50% { 
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        box-shadow: 0 0 20px rgba(57, 255, 20, 0.3), 0 0 40px rgba(57, 255, 20, 0);
+    }
+    50% { 
+        box-shadow: 0 0 40px rgba(57, 255, 20, 0.5), 0 0 80px rgba(57, 255, 20, 0.2);
+    }
+}
+
+@keyframes pulseBlue {
+    0%, 100% { 
+        box-shadow: 0 0 20px rgba(0, 245, 255, 0.3), 0 0 40px rgba(0, 245, 255, 0);
+    }
+    50% { 
+        box-shadow: 0 0 40px rgba(0, 245, 255, 0.5), 0 0 80px rgba(0, 245, 255, 0.2);
+    }
+}
+
+@keyframes glow {
+    0%, 100% { 
+        text-shadow: 0 0 10px #39FF14, 0 0 20px #39FF1450;
+    }
+    50% { 
+        text-shadow: 0 0 25px #39FF14, 0 0 50px #39FF1480;
+    }
+}
+
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
+.active{
+    display: flex;
+}
+
+button{
+    padding: 12px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    will-change: transform, box-shadow;
+    transform: translate3d(0, 0, 0);
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    transform: translate(-50%, -50%);
+    transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+button:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+button:hover {
+    transform: translateY(-4px) scale(1.06);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+button:active {
+    transform: translateY(-1px) scale(1.03);
+}
+
+.neon-green{ 
+    background: linear-gradient(135deg, #39FF14 0%, #2cd911 100%);
+    color: black;
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+    border: 2px solid #39FF14;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.neon-green:hover {
+    box-shadow: 0 0 50px rgba(57, 255, 20, 0.8), inset 0 0 30px rgba(57, 255, 20, 0.15);
+    background: linear-gradient(135deg, #2cd911 0%, #24b80d 100%);
+}
+
+.neon-blue{ 
+    background: linear-gradient(135deg, #00F5FF 0%, #00d9e8 100%);
+    color: black;
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+    border: 2px solid #00F5FF;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.neon-blue:hover {
+    box-shadow: 0 0 50px rgba(0, 245, 255, 0.8), inset 0 0 30px rgba(0, 245, 255, 0.15);
+    background: linear-gradient(135deg, #00d9e8 0%, #00b8d4 100%);
+}
+
+.neon-orange{ 
+    background: linear-gradient(135deg, #FF5F1F 0%, #ff4500 100%);
+    color: white;
+    box-shadow: 0 0 20px rgba(255, 95, 31, 0.3);
+    border: 2px solid #FF5F1F;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.neon-orange:hover {
+    box-shadow: 0 0 50px rgba(255, 95, 31, 0.8), inset 0 0 30px rgba(255, 95, 31, 0.15);
+    background: linear-gradient(135deg, #ff4500 0%, #e63c00 100%);
+}
+
+input, select{
+    padding: 12px 15px;
+    margin: 10px 0;
+    width: 280px;
+    border-radius: 8px;
+    border: 2px solid #39FF14;
+    background: rgba(15, 15, 20, 0.8);
+    color: white;
+    outline: none;
+    font-size: 1rem;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0);
+    will-change: border-color, box-shadow, transform;
+}
+
+input:focus, select:focus {
+    border-color: #00F5FF;
+    box-shadow: 0 0 30px rgba(0, 245, 255, 0.6), inset 0 0 15px rgba(0, 245, 255, 0.1);
+    background: rgba(15, 15, 20, 0.95);
+    transform: scale(1.03);
+}
+
+input::placeholder {
+    color: #666;
+    transition: color 0.4s ease;
+}
+
+input:focus::placeholder {
+    color: #00F5FF;
+}
+
+select option {
+    background: #1a1a2e;
+    color: white;
+}
+
+.glow{
+    text-shadow: 0 0 20px #39FF14, 0 0 40px #39FF1480;
+    letter-spacing: 2px;
+    animation: glow 4s ease-in-out infinite;
+}
+
+.card{
+    border: 2px solid #00F5FF;
+    padding: 25px;
+    margin: 15px auto;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(20, 20, 30, 0.9) 0%, rgba(25, 25, 40, 0.9) 100%);
+    max-width: 450px;
+    backdrop-filter: blur(10px);
+    transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    animation: slideUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, box-shadow;
+}
+
+.card:hover {
+    background: linear-gradient(135deg, rgba(30, 30, 45, 0.95) 0%, rgba(35, 35, 55, 0.95) 100%);
+    box-shadow: 0 0 60px rgba(0, 245, 255, 0.6), inset 0 0 30px rgba(0, 245, 255, 0.12);
+    border-color: #39FF14;
+    transform: translateY(-15px) scale(1.04);
+}
+
+h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: 3px;
+    font-weight: 900;
+    animation: slideUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), float 5s ease-in-out infinite;
+}
+
+h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #00F5FF, #39FF14);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 1px;
+    animation: slideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+h3 {
+    color: #39FF14;
+    margin-bottom: 0.7rem;
+    font-size: 1.3rem;
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+    animation: slideUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+p {
+    color: #aaa;
+    margin: 0.7rem 0;
+    line-height: 1.6;
+    animation: slideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: color 0.4s ease;
+}
+
+.progress {
+    background: rgba(50, 50, 70, 0.5);
+    height: 10px;
+    border-radius: 10px;
+    margin: 20px 0;
+    width: 100%;
+    max-width: 350px;
+    overflow: hidden;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #39FF14, #00F5FF);
+    height: 100%;
+    transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 0 20px #39FF14, inset 0 0 10px rgba(57, 255, 20, 0.3);
+    border-radius: 10px;
+}
+
+.question-container {
+    width: 100%;
+    max-width: 550px;
+    margin: 2rem auto;
+    animation: slideUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.option-btn {
+    padding: 14px 20px;
+    background: rgba(20, 20, 30, 0.6);
+    border: 2px solid #333;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-align: left;
+    font-size: 1rem;
+    margin: 0;
+    font-weight: 600;
+    animation: slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
+    position: relative;
+    overflow: hidden;
+    will-change: transform, border-color, box-shadow;
+}
+
+.option-btn:nth-child(1) { animation-delay: 0.1s; }
+.option-btn:nth-child(2) { animation-delay: 0.15s; }
+.option-btn:nth-child(3) { animation-delay: 0.2s; }
+.option-btn:nth-child(4) { animation-delay: 0.25s; }
+.option-btn:nth-child(5) { animation-delay: 0.3s; }
+
+.option-btn:hover {
+    border-color: #39FF14;
+    color: #39FF14;
+    background: rgba(57, 255, 20, 0.18);
+    box-shadow: 0 0 25px rgba(57, 255, 20, 0.5), inset 0 0 15px rgba(57, 255, 20, 0.15);
+    transform: translateX(10px) scale(1.03);
+}
+
+.option-btn.selected {
+    background: linear-gradient(135deg, #39FF14, #2cd911);
+    color: black;
+    border-color: #39FF14;
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.8), inset 0 0 20px rgba(57, 255, 20, 0.25);
+    animation: pulse 0.8s ease-in-out;
+}
+
+.matches-container {
+    width: 100%;
+    max-width: 650px;
+    margin: 2rem auto;
+}
+
+.match-card {
+    border: 2px solid #00F5FF;
+    padding: 20px;
+    margin: 15px auto;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(20, 20, 30, 0.85) 0%, rgba(25, 25, 40, 0.85) 100%);
+    max-width: 550px;
+    cursor: pointer;
+    transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
+    position: relative;
+    will-change: transform, box-shadow;
+}
+
+.match-card:nth-child(1) { animation-delay: 0.1s; }
+.match-card:nth-child(2) { animation-delay: 0.2s; }
+.match-card:nth-child(3) { animation-delay: 0.3s; }
+.match-card:nth-child(4) { animation-delay: 0.4s; }
+
+.match-card:hover {
+    background: linear-gradient(135deg, rgba(35, 35, 50, 0.95) 0%, rgba(40, 40, 60, 0.95) 100%);
+    box-shadow: 0 0 70px rgba(0, 245, 255, 0.7), inset 0 0 30px rgba(0, 245, 255, 0.15);
+    border-color: #39FF14;
+    transform: translateY(-18px) scale(1.05);
+}
+
+.match-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.match-score {
+    background: linear-gradient(135deg, #39FF14, #2cd911);
+    color: black;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+    animation: floatSmooth 3.5s ease-in-out infinite;
+    transition: all 0.4s ease;
+}
+
+.match-info {
+    text-align: left;
+    color: #aaa;
+    margin: 12px 0;
+    transition: all 0.3s ease;
+}
+
+.match-info strong {
+    color: #00F5FF;
+    font-weight: 700;
+}
+
+.logo-small {
+    font-size: 1.8rem;
+    color: #39FF14;
+    text-shadow: 0 0 15px #39FF14, 0 0 30px #39FF1450;
+    margin-bottom: 2.5rem;
+    letter-spacing: 2px;
+    font-weight: 900;
+    animation: glow 2.5s ease-in-out infinite;
+}
+
+textarea {
+    resize: vertical;
+    font-family: inherit;
+    border: 2px solid #39FF14;
+    background: rgba(15, 15, 20, 0.8) !important;
+    color: white !important;
+    border-radius: 8px !important;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    padding: 12px 15px;
+    width: 280px;
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0);
+    will-change: border-color, box-shadow, transform;
+}
+
+textarea:focus {
+    border-color: #00F5FF;
+    box-shadow: 0 0 30px rgba(0, 245, 255, 0.6), inset 0 0 15px rgba(0, 245, 255, 0.15);
+    transform: scale(1.03);
+    background: rgba(15, 15, 20, 0.95) !important;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    input, select {
+        width: 90%;
+        max-width: 350px;
+    }
+    
+    .card {
+        padding: 20px;
+    }
+    
+    button {
+        padding: 10px 16px;
+        font-size: 0.95rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Landing Screen -->
+<div class="screen active" id="landing">
+    <h1 class="glow">SPORTMATE</h1>
+    <h3 style="color: #00F5FF; font-size: 1.2rem; margin-bottom: 3rem;">Your Sports Buddy Finder</h3>
+    <button class="neon-orange" onclick="show('auth')">Get Started</button>
+</div>
+
+<!-- Auth Screen -->
+<div class="screen" id="auth">
+    <h2>Welcome to SPORTMATE</h2>
+    <button class="neon-green" style="width: 200px;" onclick="show('signupAI')">Sign Up</button>
+    <button class="neon-blue" style="width: 200px;" onclick="alert('Login Coming Soon')">Login</button>
+</div>
+
+<!-- AI Onboarding - Initial Sport Input -->
+<div class="screen" id="signupAI">
+    <div class="logo-small">SPORTMATE</div>
+    <h2>Sport Assessment</h2>
+    <p style="margin-bottom: 2rem;">What sport do you play most?</p>
+    <select id="sportInput" style="width: 300px;">
+        <option value="">-- Select a Sport --</option>
+        <optgroup label="Team Sports">
+            <option value="Basketball">Basketball</option>
+            <option value="Soccer">Soccer</option>
+            <option value="Volleyball">Volleyball</option>
+            <option value="Cricket">Cricket</option>
+            <option value="Baseball">Baseball</option>
+            <option value="American Football">American Football</option>
+            <option value="Rugby">Rugby</option>
+            <option value="Hockey">Hockey</option>
+            <option value="Handball">Handball</option>
+        </optgroup>
+        <optgroup label="Racquet Sports">
+            <option value="Tennis">Tennis</option>
+            <option value="Badminton">Badminton</option>
+            <option value="Squash">Squash</option>
+            <option value="Racquetball">Racquetball</option>
+            <option value="Table Tennis">Table Tennis</option>
+        </optgroup>
+        <optgroup label="Combat Sports">
+            <option value="Boxing">Boxing</option>
+            <option value="MMA">MMA</option>
+            <option value="Wrestling">Wrestling</option>
+            <option value="Judo">Judo</option>
+            <option value="Karate">Karate</option>
+            <option value="Taekwondo">Taekwondo</option>
+            <option value="Kickboxing">Kickboxing</option>
+        </optgroup>
+        <optgroup label="Water Sports">
+            <option value="Swimming">Swimming</option>
+            <option value="Surfing">Surfing</option>
+            <option value="Water Polo">Water Polo</option>
+            <option value="Diving">Diving</option>
+            <option value="Kayaking">Kayaking</option>
+            <option value="Rowing">Rowing</option>
+        </optgroup>
+        <optgroup label="Track & Field">
+            <option value="Running">Running</option>
+            <option value="Sprinting">Sprinting</option>
+            <option value="Long Jump">Long Jump</option>
+            <option value="High Jump">High Jump</option>
+            <option value="Shot Put">Shot Put</option>
+            <option value="Javelin">Javelin</option>
+            <option value="Hurdling">Hurdling</option>
+        </optgroup>
+        <optgroup label="Precision Sports">
+            <option value="Golf">Golf</option>
+            <option value="Archery">Archery</option>
+            <option value="Shooting">Shooting</option>
+            <option value="Darts">Darts</option>
+            <option value="Bowling">Bowling</option>
+        </optgroup>
+        <optgroup label="Cycling & Outdoor">
+            <option value="Road Cycling">Road Cycling</option>
+            <option value="Mountain Biking">Mountain Biking</option>
+            <option value="Rock Climbing">Rock Climbing</option>
+            <option value="Hiking">Hiking</option>
+            <option value="Trail Running">Trail Running</option>
+        </optgroup>
+        <optgroup label="Winter Sports">
+            <option value="Skiing">Skiing</option>
+            <option value="Snowboarding">Snowboarding</option>
+            <option value="Ice Skating">Ice Skating</option>
+            <option value="Ice Hockey">Ice Hockey</option>
+        </optgroup>
+        <optgroup label="Other Sports">
+            <option value="Gymnastics">Gymnastics</option>
+            <option value="Weightlifting">Weightlifting</option>
+            <option value="CrossFit">CrossFit</option>
+            <option value="Yoga">Yoga</option>
+            <option value="Martial Arts">Martial Arts</option>
+            <option value="Skateboarding">Skateboarding</option>
+            <option value="BMX">BMX</option>
+            <option value="Equestrian">Equestrian</option>
+        </optgroup>
+        <option value="Other">Other</option>
+    </select>
+    <button class="neon-green" onclick="startAssessment()">Start Quiz</button>
+</div>
+
+<!-- AI Questions Screen -->
+<div class="screen" id="aiQuestions">
+    <div class="logo-small">SPORTMATE</div>
+    <div class="progress">
+        <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+    </div>
+    <p style="color: #888; margin-bottom: 1rem;" id="questionCounter"></p>
+    <div class="question-container">
+        <h3 id="questionText" style="color: white; text-align: left; margin-bottom: 1.5rem;"></h3>
+        <div class="options-grid" id="optionsContainer"></div>
+    </div>
+</div>
+
+<!-- AI Result -->
+<div class="screen" id="aiResult">
+    <div class="logo-small">SPORTMATE</div>
+    <h2>Your Sport Profile</h2>
+    <div id="resultBox"></div>
+    <button class="neon-orange" onclick="show('profileSetup')">Continue</button>
+</div>
+
+<!-- Profile Setup -->
+<div class="screen" id="profileSetup">
+    <div class="logo-small">SPORTMATE</div>
+    <h2>Create Your Profile</h2>
+    <input id="fullName" placeholder="Full Name" onblur="validateName()" style="margin-bottom: 5px;">
+    <p id="nameError" style="color: #FF5F1F; font-size: 0.9rem; margin-bottom: 15px; height: 20px;"></p>
+    
+    <input id="ageInput" placeholder="Age (13-99)" type="number" onblur="validateAge()" style="margin-bottom: 5px;">
+    <p id="ageError" style="color: #FF5F1F; font-size: 0.9rem; margin-bottom: 15px; height: 20px;"></p>
+    
+    <select id="locationInput" style="margin-bottom: 10px;">
+        <option value="">-- Select District --</option>
+        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+        <option value="Kollam">Kollam</option>
+        <option value="Pathanamthitta">Pathanamthitta</option>
+        <option value="Alappuzha">Alappuzha</option>
+        <option value="Kottayam">Kottayam</option>
+        <option value="Idukki">Idukki</option>
+        <option value="Ernakulam">Ernakulam</option>
+        <option value="Thrissur">Thrissur</option>
+        <option value="Palakkad">Palakkad</option>
+        <option value="Malappuram">Malappuram</option>
+        <option value="Kozhikode">Kozhikode</option>
+        <option value="Wayanad">Wayanad</option>
+        <option value="Kannur">Kannur</option>
+        <option value="Kasaragod">Kasaragod</option>
+    </select>
+    
+    <select id="skillLevel">
+        <option value="">-- Select Skill Level --</option>
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Advanced">Advanced</option>
+        <option value="Pro">Pro</option>
+    </select>
+    <div style="display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem;">
+        <button class="neon-green" onclick="createProfile()" style="flex: 1; max-width: 200px;">Continue to Certificates</button>
+        <button class="neon-orange" onclick="skipCertificates()" style="flex: 1; max-width: 150px;">Skip</button>
+    </div>
+</div>
+
+<!-- Certificate Upload -->
+<div class="screen" id="certificateSetup">
+    <div class="logo-small">SPORTMATE</div>
+    <h2>Add Sport Certificates</h2>
+    <p style="color: #aaa; margin-bottom: 1.5rem;">Verify your skills with certificates (optional)</p>
+    
+    <div style="background: #111; border: 2px solid #00F5FF; border-radius: 8px; padding: 20px; margin: 15px auto; max-width: 400px;">
+        <h3 style="text-align: left; margin-bottom: 1rem;">Add Certificate</h3>
+        <input id="certName" placeholder="Certificate Name" style="width: 100%; margin: 8px 0;">
+        <input id="certIssuedBy" placeholder="Issued By (Organization)" style="width: 100%; margin: 8px 0;">
+        <input id="certDate" type="date" style="width: 100%; margin: 8px 0;">
+        <input id="certFile" type="file" accept="image/*,.pdf" style="width: 100%; margin: 8px 0; border: 2px solid #39FF14;">
+        <button class="neon-green" onclick="addCertificate()" style="width: 100%; margin-top: 10px;">Add Certificate</button>
+    </div>
+
+    <div id="certificatesList" style="max-width: 400px; margin: 1.5rem auto;"></div>
+
+    <button class="neon-orange" onclick="finishProfileSetup()" style="margin-top: 1rem;">Continue to Home</button>
+</div>
+
+<!-- Homepage -->
+<div class="screen" id="home">
+    <h1 class="glow">SPORTMATE</h1>
+    <h3 style="margin-bottom: 3rem;" id="userGreeting">Welcome!</h3>
+    <button class="neon-orange" onclick="show('options')">Find My Buddies</button>
+    <button class="neon-blue" style="margin-top: 1rem;" onclick="show('viewProfile')">View Profile</button>
+</div>
+
+<!-- View Profile -->
+<div class="screen" id="viewProfile">
+    <div class="logo-small">SPORTMATE</div>
+    <h2>My Profile</h2>
+    
+    <div class="card" style="max-width: 500px; text-align: left;">
+        <h3 style="text-align: center; margin-bottom: 1rem;" id="profileName"></h3>
+        <p><strong style="color: #00F5FF;">Sport:</strong> <span id="profileSport"></span></p>
+        <p><strong style="color: #00F5FF;">Skill Level:</strong> <span id="profileSkill"></span></p>
+        <p><strong style="color: #00F5FF;">Age:</strong> <span id="profileAge"></span></p>
+        <p><strong style="color: #00F5FF;">Location:</strong> <span id="profileLocation"></span></p>
+    </div>
+
+    <div style="max-width: 500px; margin: 2rem auto;">
+        <h3 style="color: #39FF14; margin-bottom: 1rem;">🏆 Certificates</h3>
+        <div id="profileCertificates"></div>
+        <button class="neon-green" onclick="show('certificateSetup')" style="width: 100%; margin-top: 1rem;">+ Add Certificate</button>
+    </div>
+
+    <button class="neon-orange" onclick="show('home')" style="margin-top: 1rem;">Back to Home</button>
+</div>
+
+<!-- Options -->
+<div class="screen" id="options">
+    <h2>What are you looking for?</h2>
+    <button class="neon-green" onclick="show('playNow')" style="width: 250px;">🎮 Play Now</button>
+    <button class="neon-blue" onclick="show('viewProfile')" style="width: 250px;">👤 View Profile</button>
+</div>
+
+<!-- Play Now - Hub with Matching Options -->
+<div class="screen" id="playNow">
+    <div class="logo-small">SPORTMATE</div>
+    <h2>🎮 Play Now</h2>
+    <p style="color: #888; margin-bottom: 2rem;">Find your perfect match instantly</p>
+    
+    <div style="max-width: 400px; margin: 0 auto;">
+        <button class="neon-blue" onclick="startMatching()" style="width: 100%; padding: 15px; margin: 10px 0; font-size: 1.1rem;">
+            🔍 Find Matches by Interest
+        </button>
+        <button class="neon-green" onclick="show('scheduleMatchPlay')" style="width: 100%; padding: 15px; margin: 10px 0; font-size: 1.1rem;">
+            📅 Schedule a Match
+        </button>
+        <button class="neon-orange" onclick="show('options')" style="width: 100%; padding: 15px; margin: 10px 0;">
+            ← Back
+        </button>
+    </div>
+</div>
+
+<!-- Matching Results Screen -->
+<div class="screen" id="matching">
+    <div class="logo-small">SPORTMATE</div>
+    <h2>Your Potential Buddies</h2>
+    <p id="matchIntro" style="margin-bottom: 2rem;"></p>
+    <div class="matches-container" id="matchesContainer"></div>
+    <button class="neon-orange" onclick="show('options')" style="margin-top: 2rem;">Back to Options</button>
+</div>
+
+<!-- Schedule Match from Matching Results -->
+<div class="screen" id="scheduleMatchResult">
+    <div class="logo-small">SPORTMATE</div>
+    <h2>Schedule a Match</h2>
+    <p id="schedulePartnerName" style="color: #00F5FF; font-weight: bold; margin-bottom: 1.5rem;"></p>
+    
+    <div class="card" style="max-width: 400px;">
+        <h3 style="text-align: left; margin-bottom: 1rem;">Match Details</h3>
+        <p style="text-align: left; color: #888; margin-bottom: 1rem;">📍 Location: <span id="scheduleLocation"></span></p>
+        
+        <div>
+            <label style="color: #00F5FF; display: block; text-align: left; margin-bottom: 0.5rem;">📅 Date</label>
+            <input id="scheduleMatchDate" type="date" style="width: 100%; margin: 8px 0;">
+        </div>
+        
+        <div>
+            <label style="color: #00F5FF; display: block; text-align: left; margin-bottom: 0.5rem;">⏰ Time</label>
+            <input id="scheduleMatchTime" type="time" style="width: 100%; margin: 8px 0;">
+        </div>
+        
+        <div>
+            <label style="color: #00F5FF; display: block; text-align: left; margin-bottom: 0.5rem;">📍 Venue/Court</label>
+            <input id="scheduleMatchVenue" placeholder="Enter venue name" style="width: 100%; margin: 8px 0;">
+        </div>
+
+        <div>
+            <label style="color: #00F5FF; display: block; text-align: left; margin-bottom: 0.5rem;">📝 Additional Notes</label>
+            <textarea id="scheduleMatchNotes" placeholder="Max 3 sentences" style="width: 100%; height: 60px; margin: 8px 0; padding: 10px; border: 2px solid #39FF14; border-radius: 6px; background: #111; color: white; outline: none;"></textarea>
+            <p id="scheduleMatchNotesError" style="color: #FF5F1F; font-size: 0.9rem; margin-top: 5px; height: 18px;"></p>
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-top: 2rem; justify-content: center;">
+        <button class="neon-green" onclick="confirmScheduleMatch()" style="flex: 0 1 200px;">✓ Confirm</button>
+        <button class="neon-orange" onclick="show('matching')" style="flex: 0 1 200px;">Cancel</button>
+    </div>
+</div>
+
+<!-- Connect - Groups/Communities -->
+<div class="screen" id="connect">
+    <h2>People with Same Interest</h2>
+    <div class="card">
+        <h3>Community Group</h3>
+        <p>🏸 5 Active Members</p>
+        <p style="margin-top: 1rem; color: #39FF14;">All skill levels welcome</p>
+    </div>
+    <button class="neon-green" onclick="matchSuccess()">Join Community</button>
+    <button class="neon-orange" onclick="show('options')">Back</button>
+</div>
+
+<!-- Schedule Match from Play Now -->
+<div class="screen" id="scheduleMatchPlay">
+    <div class="logo-small">SPORTMATE</div>
+    <h2>Schedule a Match</h2>
+    <p style="color: #888; margin-bottom: 1.5rem;">Book a match with anyone</p>
+    
+    <div class="card" style="max-width: 400px;">
+        <div>
+            <label style="color: #00F5FF; display: block; text-align: left; margin-bottom: 0.5rem;">📅 Date</label>
+            <input id="schedulePlayDate" type="date" style="width: 100%; margin: 8px 0;">
+        </div>
+        
+        <div>
+            <label style="color: #00F5FF; display: block; text-align: left; margin-bottom: 0.5rem;">⏰ Time</label>
+            <input id="schedulePlayTime" type="time" style="width: 100%; margin: 8px 0;">
+        </div>
+        
+        <div>
+            <label style="color: #00F5FF; display: block; text-align: left; margin-bottom: 0.5rem;">📍 Venue/Court</label>
+            <input id="schedulePlayVenue" placeholder="Enter venue name" style="width: 100%; margin: 8px 0;">
+        </div>
+
+        <div>
+            <label style="color: #00F5FF; display: block; text-align: left; margin-bottom: 0.5rem;">📝 Additional Notes</label>
+            <textarea id="schedulePlayNotes" placeholder="Max 3 sentences" style="width: 100%; height: 60px; margin: 8px 0; padding: 10px; border: 2px solid #39FF14; border-radius: 6px; background: #111; color: white; outline: none;"></textarea>
+            <p id="schedulePlayNotesError" style="color: #FF5F1F; font-size: 0.9rem; margin-top: 5px; height: 18px;"></p>
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-top: 2rem; justify-content: center;">
+        <button class="neon-green" onclick="confirmScheduleMatchPlay()" style="flex: 0 1 200px;">✓ Create Match</button>
+        <button class="neon-orange" onclick="show('playNow')" style="flex: 0 1 200px;">Cancel</button>
+    </div>
+</div>
+
+<!-- Success -->
+<div class="screen" id="success">
+    <h1 style="color: #39FF14; font-size: 3rem;">🎉</h1>
+    <h1>You Found Your Sportmate!</h1>
+    <p style="color: #00F5FF; margin: 2rem 0; font-size: 1.2rem;">Get ready for some amazing matches!</p>
+    <button class="neon-orange" onclick="show('home')">Back to Home</button>
+</div>
+
+<script>
+// Global state
+let currentUser = {
+    name: '',
+    sport: '',
+    age: '',
+    location: '',
+    skillLevel: '',
+    answers: [],
+    certificates: []
+};
+
+let selectedMatchUser = null;
+
+let currentQuestion = 0;
+let scores = {};
+const sports = ['football', 'basketball', 'tennis', 'cricket', 'soccer'];
+
+const questions = [
+    {
+        text: "How do you handle physical challenges?",
+        options: ["I push through with endurance and persistence.", "I rely on strategic thinking and teamwork.", "I focus on precision and technique.", "I thrive in fast-paced, high-energy situations."]
+    },
+    {
+        text: "What is your strength in sports?",
+        options: ["Stamina and endurance", "Cooperation and strategic play", "Precision and accuracy", "Speed and agility"]
+    },
+    {
+        text: "How do you approach a new skill in sports?",
+        options: ["Practice consistently until I master it.", "Work with others to improve and learn.", "Focus on perfecting each movement.", "Jump in and learn through high-intensity practice."]
+    },
+    {
+        text: "What type of physical activity do you enjoy the most?",
+        options: ["Long-distance cycling or swimming", "Team sports like soccer or basketball", "Sports that require precision like golf or archery", "High-energy sports like sprinting or boxing"]
+    },
+    {
+        text: "When playing a sport, what is your primary goal?",
+        options: ["To go the distance and build endurance", "To win through teamwork and strategy", "To perfect my skills and techniques", "To outperform with speed and quick reflexes"]
+    },
+    {
+        text: "How do you react under pressure during a game?",
+        options: ["Stay calm and keep pushing steadily", "Communicate and coordinate with my team", "Maintain focus and control", "Increase my intensity and act quickly"]
+    },
+    {
+        text: "What type of training do you prefer?",
+        options: ["Long runs or cycling", "Team drills and strategy sessions", "Individual practice with a focus on technique", "High-intensity interval training"]
+    },
+    {
+        text: "What role do you usually take in a team sport?",
+        options: ["The steady performer who can keep going", "The strategic player who coordinates plays", "The precise executor of key actions", "The fast-paced player who makes quick moves"]
+    },
+    {
+        text: "How do you prepare for a competition?",
+        options: ["Build up my stamina and endurance", "Plan and strategize with my team", "Focus on refining my technique", "Engage in high-energy training sessions"]
+    },
+    {
+        text: "What motivates you the most in sports?",
+        options: ["Achieving personal bests and endurance goals", "Team success and strategic victories", "Mastery of skills and precision", "The thrill of fast-paced competition"]
+    }
+];
+
+// Mock user database
+const mockUsers = [
+    {
+        id: 'user1',
+        name: 'Alex',
+        sport: 'Badminton',
+        age: 28,
+        location: 'New York',
+        skillLevel: 'Advanced',
+        answers: [2, 2, 1, 2, 4, 0, 0, 4]
+    },
+    {
+        id: 'user2',
+        name: 'Jordan',
+        sport: 'Badminton',
+        age: 24,
+        location: 'New York',
+        skillLevel: 'Intermediate',
+        answers: [1, 2, 1, 1, 3, 1, 1, 0]
+    },
+    {
+        id: 'user3',
+        name: 'Casey',
+        sport: 'Badminton',
+        age: 26,
+        location: 'New York',
+        skillLevel: 'Advanced',
+        answers: [2, 0, 0, 2, 4, 0, 0, 1]
+    },
+    {
+        id: 'user4',
+        name: 'Morgan',
+        sport: 'Tennis',
+        age: 35,
+        location: 'Boston',
+        skillLevel: 'Pro',
+        answers: [3, 2, 1, 3, 4, 4, 2, 2]
+    }
+];
+
+function show(id) {
+    document.querySelectorAll('.screen').forEach(s => {
+        s.classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+    
+    // Update profile view if showing the profile
+    if (id === 'viewProfile') {
+        updateProfileView();
+    }
+}
+
+function startAssessment() {
+    let sport = document.getElementById("sportInput").value.trim();
+    if (!sport) {
+        alert('Please enter a sport name');
+        return;
+    }
+    currentUser.sport = sport;
+    currentQuestion = 0;
+    currentUser.answers = [];
+    scores = {};
+    sports.forEach(s => scores[s] = 0);
+    
+    renderQuestion();
+    show('aiQuestions');
+}
+
+function renderQuestion() {
+    const question = questions[currentQuestion];
+    const progress = ((currentQuestion + 1) / questions.length) * 100;
+    
+    document.getElementById('progressBar').style.width = progress + '%';
+    document.getElementById('questionCounter').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+    document.getElementById('questionText').textContent = question.text;
+    
+    let optionsHTML = '';
+    question.options.forEach((option, idx) => {
+        optionsHTML += `<button class="option-btn" onclick="selectAnswer(${idx})">${option}</button>`;
+    });
+    document.getElementById('optionsContainer').innerHTML = optionsHTML;
+}
+
+function selectAnswer(idx) {
+    currentUser.answers.push(idx);
+    currentQuestion++;
+    
+    if (currentQuestion < questions.length) {
+        renderQuestion();
+    } else {
+        showAIResult();
+    }
+}
+
+function showAIResult() {
+    // Analyze answers to determine play style
+    const styleNames = ["Endurance Player", "Team Player", "Precision Player", "High-Energy Player"];
+    const styleDescriptions = [
+        "You're a steady, endurance-focused athlete who thrives through persistence and long-term conditioning.",
+        "You're a strategic team player who excels through cooperation, communication, and tactical play.",
+        "You're a precision athlete who values perfect technique and controlled, calculated movements.",
+        "You're a high-energy athlete who thrives on speed, agility, and intense, fast-paced competition."
+    ];
+    
+    // Count which style appears most in answers
+    const counts = [0, 0, 0, 0];
+    currentUser.answers.forEach(answer => {
+        counts[answer]++;
+    });
+    
+    // Find dominant style
+    let dominantStyle = 0;
+    let maxCount = counts[0];
+    for (let i = 1; i < 4; i++) {
+        if (counts[i] > maxCount) {
+            maxCount = counts[i];
+            dominantStyle = i;
+        }
+    }
+    
+    document.getElementById("resultBox").innerHTML = `
+        <div class="card">
+            <h3>${currentUser.sport}</h3>
+            <p style="color: #00F5FF; font-weight: bold; font-size: 1.2rem; margin: 1rem 0;">${styleNames[dominantStyle]}</p>
+            <p style="color: #ccc; margin-top: 1rem; font-size: 0.95rem; line-height: 1.5;">${styleDescriptions[dominantStyle]}</p>
+        </div>
+    `;
+    show('aiResult');
+}
+
+function validateName() {
+    const name = document.getElementById('fullName').value.trim();
+    const nameError = document.getElementById('nameError');
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    
+    if (name && !nameRegex.test(name)) {
+        nameError.textContent = 'Name should contain only letters and spaces';
+        return false;
+    }
+    nameError.textContent = '';
+    return true;
+}
+
+function validateAge() {
+    const age = document.getElementById('ageInput').value;
+    const ageError = document.getElementById('ageError');
+    
+    if (age && (age < 13 || age > 99)) {
+        ageError.textContent = 'Age must be between 13 and 99';
+        return false;
+    }
+    ageError.textContent = '';
+    return true;
+}
+
+function createProfile() {
+    const name = document.getElementById('fullName').value.trim();
+    const age = document.getElementById('ageInput').value;
+    const location = document.getElementById('locationInput').value.trim();
+    const skillLevel = document.getElementById('skillLevel').value;
+    
+    if (!validateName() || !validateAge()) {
+        return;
+    }
+    
+    if (!name || !age || !location || !skillLevel) {
+        alert('Please fill all fields');
+        return;
+    }
+    
+    currentUser.name = name;
+    currentUser.age = age;
+    currentUser.location = location;
+    currentUser.skillLevel = skillLevel;
+    
+    show('certificateSetup');
+}
+
+function skipCertificates() {
+    const name = document.getElementById('fullName').value.trim();
+    const age = document.getElementById('ageInput').value;
+    const location = document.getElementById('locationInput').value.trim();
+    const skillLevel = document.getElementById('skillLevel').value;
+    
+    if (!validateName() || !validateAge()) {
+        return;
+    }
+    
+    if (!name || !age || !location || !skillLevel) {
+        alert('Please fill all fields');
+        return;
+    }
+    
+    currentUser.name = name;
+    currentUser.age = age;
+    currentUser.location = location;
+    currentUser.skillLevel = skillLevel;
+    currentUser.certificates = [];
+    
+    document.getElementById('userGreeting').textContent = `Welcome, ${name}!`;
+    show('home');
+}
+
+function addCertificate() {
+    const certName = document.getElementById('certName').value.trim();
+    const certIssuedBy = document.getElementById('certIssuedBy').value.trim();
+    const certDate = document.getElementById('certDate').value;
+    const certFile = document.getElementById('certFile').files[0];
+    
+    if (!certName || !certIssuedBy || !certDate) {
+        alert('Please fill all certificate fields');
+        return;
+    }
+
+    const certificate = {
+        id: Date.now(),
+        name: certName,
+        issuedBy: certIssuedBy,
+        date: certDate,
+        fileName: certFile ? certFile.name : 'No file',
+        fileSize: certFile ? (certFile.size / 1024).toFixed(2) : 0
+    };
+
+    currentUser.certificates.push(certificate);
+    
+    // Clear form
+    document.getElementById('certName').value = '';
+    document.getElementById('certIssuedBy').value = '';
+    document.getElementById('certDate').value = '';
+    document.getElementById('certFile').value = '';
+    
+    renderCertificatesList();
+    alert('Certificate added successfully! ✅');
+}
+
+function renderCertificatesList() {
+    const container = document.getElementById('certificatesList');
+    
+    if (currentUser.certificates.length === 0) {
+        container.innerHTML = '<p style="color: #888; text-align: center;">No certificates added yet</p>';
+        return;
+    }
+
+    let html = '';
+    currentUser.certificates.forEach(cert => {
+        html += `
+            <div class="card" style="background: #1a1a1a; border: 2px solid #39FF14; margin: 10px 0; padding: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                    <h3 style="margin: 0; color: #39FF14; font-size: 1rem;">${cert.name}</h3>
+                    <button class="neon-orange" style="padding: 5px 10px; margin: 0;" onclick="deleteCertificate(${cert.id})">✕</button>
+                </div>
+                <p style="margin: 0.5rem 0; color: #00F5FF;"><strong>📋 Issued By:</strong> ${cert.issuedBy}</p>
+                <p style="margin: 0.5rem 0; color: #aaa;"><strong>📅 Date:</strong> ${new Date(cert.date).toLocaleDateString()}</p>
+                <p style="margin: 0.5rem 0; color: #888; font-size: 0.85rem;"><strong>📄 File:</strong> ${cert.fileName} (${cert.fileSize} KB)</p>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function deleteCertificate(certId) {
+    if (confirm('Are you sure you want to delete this certificate?')) {
+        currentUser.certificates = currentUser.certificates.filter(c => c.id !== certId);
+        renderCertificatesList();
+        alert('Certificate deleted ✓');
+    }
+}
+
+function finishProfileSetup() {
+    document.getElementById('userGreeting').textContent = `Welcome, ${currentUser.name}!`;
+    show('home');
+}
+
+function updateProfileView() {
+    document.getElementById('profileName').textContent = currentUser.name;
+    document.getElementById('profileSport').textContent = currentUser.sport;
+    document.getElementById('profileSkill').textContent = currentUser.skillLevel;
+    document.getElementById('profileAge').textContent = currentUser.age;
+    document.getElementById('profileLocation').textContent = currentUser.location;
+    
+    let certificatesHTML = '';
+    if (currentUser.certificates.length === 0) {
+        certificatesHTML = '<p style="color: #888; text-align: center;">No certificates added</p>';
+    } else {
+        currentUser.certificates.forEach(cert => {
+            certificatesHTML += `
+                <div class="card" style="background: #1a1a1a; border: 2px solid #39FF14; margin: 10px 0; padding: 15px; text-align: left;">
+                    <h4 style="color: #39FF14; margin: 0 0 0.5rem 0;">✓ ${cert.name}</h4>
+                    <p style="color: #00F5FF; margin: 0.3rem 0;"><strong>By:</strong> ${cert.issuedBy}</p>
+                    <p style="color: #aaa; margin: 0.3rem 0; font-size: 0.9rem;">${new Date(cert.date).toLocaleDateString()}</p>
+                </div>
+            `;
+        });
+    }
+    
+    document.getElementById('profileCertificates').innerHTML = certificatesHTML;
+}
+
+function startMatching() {
+    const potentialMatches = mockUsers
+        .filter(u => u.sport === currentUser.sport)
+        .map(u => ({
+            user: u,
+            compatibility: calculateCompatibility(currentUser.answers, u.answers)
+        }))
+        .sort((a, b) => b.compatibility.score - a.compatibility.score);
+    
+    renderMatches(potentialMatches);
+    show('matching');
+}
+
+function calculateCompatibility(answers1, answers2) {
+    let score = 0;
+    const minLen = Math.min(answers1.length, answers2.length);
+    
+    for (let i = 0; i < minLen; i++) {
+        if (answers1[i] === answers2[i]) {
+            score += 20;
+        } else {
+            const diff = Math.abs(answers1[i] - answers2[i]);
+            if (diff === 1) score += 12;
+            else if (diff === 2) score += 6;
+        }
+    }
+    
+    const normalizedScore = minLen > 0 ? Math.min(100, Math.round((score / (minLen * 20)) * 100)) : 0;
+    
+    let level = 'Low';
+    if (normalizedScore >= 90) level = 'Perfect Match 🔥';
+    else if (normalizedScore >= 75) level = 'Excellent ⭐⭐⭐';
+    else if (normalizedScore >= 60) level = 'Good ⭐⭐';
+    else if (normalizedScore >= 45) level = 'Fair ⭐';
+    
+    return { score: normalizedScore, level };
+}
+
+function renderMatches(matches) {
+    document.getElementById('matchIntro').textContent = `Found ${matches.length} potential ${currentUser.sport} buddies!`;
+    
+    let matchesHTML = '';
+    matches.forEach(m => {
+        matchesHTML += `
+            <div class="match-card">
+                <div class="match-header">
+                    <h3 style="margin: 0;">${m.user.name}</h3>
+                    <span class="match-score">${m.compatibility.score}%</span>
+                </div>
+                <div class="match-info">
+                    <p><strong>Age:</strong> ${m.user.age} | <strong>Location:</strong> ${m.user.location}</p>
+                    <p><strong>Skill:</strong> ${m.user.skillLevel}</p>
+                    <p style="color: #39FF14; margin-top: 1rem;"><strong>${m.compatibility.level}</strong></p>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 1rem;">
+                    <button class="neon-green" style="flex: 1;" onclick="connectWithUser('${m.user.id}', '${m.user.name}')">💬 Connect</button>
+                    <button class="neon-blue" style="flex: 1;" onclick="scheduleWithUser('${m.user.id}', '${m.user.name}')">📅 Schedule</button>
+                </div>
+            </div>
+        `;
+    });
+    document.getElementById('matchesContainer').innerHTML = matchesHTML;
+}
+
+function scheduleMatch() {
+    const time = document.getElementById('scheduleTime').value;
+    const venue = document.getElementById('scheduleVenue').value;
+    
+    if (!time || !venue) {
+        alert('Please fill all fields');
+        return;
+    }
+    
+    matchSuccess();
+}
+
+function matchSuccess() {
+    show('success');
+}
+
+function connectWithUser(userId, userName) {
+    alert('🎉 Connected with ' + userName + '!\n\nChat feature coming soon...');
+}
+
+function scheduleWithUser(userId, userName) {
+    selectedMatchUser = { id: userId, name: userName };
+    document.getElementById('schedulePartnerName').textContent = `Schedule a match with ${userName}`;
+    document.getElementById('scheduleLocation').textContent = currentUser.location;
+    document.getElementById('scheduleMatchVenue').value = '';
+    document.getElementById('scheduleMatchDateTime').value = '';
+    document.getElementById('scheduleMatchNotes').value = '';
+    show('scheduleMatchResult');
+}
+
+function validateScheduleNotes(textareaId, errorId) {
+    const notes = document.getElementById(textareaId).value.trim();
+    const errorElement = document.getElementById(errorId);
+    
+    if (notes) {
+        const sentenceCount = (notes.match(/[.!?]/g) || []).length;
+        if (sentenceCount > 3) {
+            errorElement.textContent = 'Maximum 3 sentences allowed';
+            return false;
+        }
+    }
+    errorElement.textContent = '';
+    return true;
+}
+
+function confirmScheduleMatch() {
+    const date = document.getElementById('scheduleMatchDate').value;
+    const time = document.getElementById('scheduleMatchTime').value;
+    const venue = document.getElementById('scheduleMatchVenue').value.trim();
+    const notes = document.getElementById('scheduleMatchNotes').value.trim();
+
+    if (!date || !time || !venue) {
+        alert('Please fill in Date, Time, and Venue');
+        return;
+    }
+    
+    if (!validateScheduleNotes('scheduleMatchNotes', 'scheduleMatchNotesError')) {
+        return;
+    }
+
+    const scheduleDetails = `
+✅ Match Scheduled Successfully!
+
+👤 With: ${selectedMatchUser.name}
+🏸 Sport: ${currentUser.sport}
+📅 Date: ${date}
+⏰ Time: ${time}
+📍 Venue: ${venue}
+${notes ? '📝 Notes: ' + notes : ''}
+
+You'll receive a notification when ${selectedMatchUser.name} confirms!
+    `;
+
+    alert(scheduleDetails);
+    show('success');
+}
+
+function confirmScheduleMatchPlay() {
+    const date = document.getElementById('schedulePlayDate').value;
+    const time = document.getElementById('schedulePlayTime').value;
+    const venue = document.getElementById('schedulePlayVenue').value.trim();
+    const notes = document.getElementById('schedulePlayNotes').value.trim();
+
+    if (!date || !time || !venue) {
+        alert('Please fill in Date, Time, and Venue');
+        return;
+    }
+    
+    if (!validateScheduleNotes('schedulePlayNotes', 'schedulePlayNotesError')) {
+        return;
+    }
+
+    const scheduleDetails = `
+✅ Match Created Successfully!
+
+🏸 Sport: ${currentUser.sport}
+📅 Date: ${date}
+⏰ Time: ${time}
+📍 Venue: ${venue}
+${notes ? '📝 Notes: ' + notes : ''}
+
+Your match has been published! Other players will see it and can join.
+    `;
+
+    alert(scheduleDetails);
+    show('success');
+}
+</script>
+
+</body>
+</html>
