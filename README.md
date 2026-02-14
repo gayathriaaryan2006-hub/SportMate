@@ -2,27 +2,27 @@
   <img src="./img.png" alt="Project Banner" width="100%">
 </p>
 
-# [Project Name] 🎯
+# [SportMate] 🎯
 
 ## Basic Details
 
-### Team Name: [Name]
+### Team Name: [Sketch_Up]
 
 ### Team Members
-- Member 1: [Name] - [College]
-- Member 2: [Name] - [College]
+- Member 1: [Gayathri N] - [LBS INSTITUTE OF TECHNOLOGY FOR WOMEN TVM]
+- Member 2: [Name] - [LBS INSTITUTE OF TECHNOLOGY FOR WOMEN TVM]
 
 ### Hosted Project Link
-[mention your project hosted link here]
+[https://sport-mate-olive.vercel.app/]
 
 ### Project Description
-[2-3 lines about what your project does]
+[This is a website where people interested in sports connect with eachother, anytime, anywhere, and even without wanting to know them for a long period of time. if you wanna play? create your profile, find your match, venue, time and sportmate. play.]
 
 ### The Problem statement
-[What problem are you solving?]
+[IPeople often want to play sports but lack partners, struggle to find reliable sports buddies, face difficulties coordinating suitable venues and timings, and experience social hesitation when approaching unknown players.]
 
 ### The Solution
-[How are you solving it?]
+[SPORTMATE is a platform that allows sports enthusiasts to connect instantly, create their sports profiles, find matches based on their interests and skill levels, and connect with others without needing a long-term acquaintance.]
 
 ---
 
@@ -31,10 +31,10 @@
 ### Technologies/Components Used
 
 **For Software:**
-- Languages used: [e.g., JavaScript, Python, Java]
-- Frameworks used: [e.g., React, Django, Spring Boot]
-- Libraries used: [e.g., axios, pandas, JUnit]
-- Tools used: [e.g., VS Code, Git, Docker]
+- Languages used: [HTML, CSS]
+- Frameworks used: [Nil]
+- Libraries used: [Nil]
+- Tools used: [VS Code, Git]
 
 **For Hardware:**
 - Main components: [List main components]
@@ -46,10 +46,9 @@
 ## Features
 
 List the key features of your project:
-- Feature 1: [Description]
-- Feature 2: [Description]
-- Feature 3: [Description]
-- Feature 4: [Description]
+- Feature 1: [Match with users within the selected location]
+- Feature 2: [Adding Visibility to sportsperson]
+- Feature 3: [Simple UI]
 
 ---
 
@@ -121,16 +120,62 @@ List the key features of your project:
 ![Team](Add photo of your team here)
 
 ![Components](Add photo of your components here)
-*List out all components shown*
+*SPORTMATE Components
+Screens/Pages:
+
+Landing - Welcome screen with app branding
+Auth - Sign up / Login choice
+SignupAI - Sport selection (dropdown)
+AiQuestions - 10-question personality quiz
+AiResult - Quiz result & play style profile
+ProfileSetup - Create profile (name, age, location, skill level)
+CertificateSetup - Add sports certificates
+Home - Main dashboard after signup
+ViewProfile - View user profile & certificates
+Options - Find buddies or view profile menu
+PlayNow - Matching hub (two options)
+Matching - List of compatible buddies with compatibility scores
+ScheduleMatchResult - Book match with selected buddy
+Connect - Communities/groups (placeholder)
+ScheduleMatchPlay - Create open match for others to join
+Success - Confirmation screen
+Key Features:
+
+Quiz-based personality assessment (4 play styles)
+Compatibility matching algorithm
+Certificate upload & management
+Match scheduling with notes validation
+Responsive design with neon theme
+Client-side state management*
 
 ![Build](Add photos of build process here)
-*Explain the build steps*
+<img width="409" height="435" alt="Screenshot 2026-02-14 081252" src="https://github.com/user-attachments/assets/0d703c15-6c93-42f1-9df5-13879526fcf2" />
+<img width="500" height="490" alt="Screenshot 2026-02-14 081307" src="https://github.com/user-attachments/assets/f722e45f-f029-4c70-8ab3-2a96fa187ba0" />
+<img width="642" height="530" alt="Screenshot 2026-02-14 081323" src="https://github.com/user-attachments/assets/b671e19b-a436-41f0-b306-a2833ba6520f" />
 
-![Final](Add photo of final product here)
-*Explain the final build*
+*This is a static HTML/CSS/JavaScript web application - there are no build steps required.
+
+How it works:
+
+Open directly: Simply open index.html in any modern web browser
+No build tools: No compilation, bundlers, or dependencies needed
+No server required: Runs entirely client-side in the browser
+Technology stack:
+
+HTML: Structure and form inputs
+CSS: Embedded styles with animations, gradients, responsive design
+JavaScript: Embedded logic for state management, quiz flow, matching algorithm
+To use:
+
+Double-click index.html or drag it into a browser
+Works offline after loading
+All data persists only during the session (stored in JavaScript object currentUser)*
 
 ---
+xplain the build steps*
 
+![Final](Add photo of final product here)
+<img width="497" height="359" alt="image" src="https://github.com/user-attachments/assets/b7b5fa30-13b8-4ecb-ac47-40a23d7ed763" />
 ## Additional Documentation
 
 ### For Web Projects with Backend:
